@@ -34,7 +34,7 @@ const EmailWorkflowForm = () => {
         mode: "no-cors",
         body: JSON.stringify({
           subject: subject.trim(),
-          content: content.trim(),
+          message: content.trim(),
         }),
       });
 
