@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { Mail, Send, Workflow, CheckCircle, AlertCircle } from "lucide-react";
 
 const EmailWorkflowForm = () => {
-  const webhookUrl = "https://mysasoft.app.n8n.cloud/webhook/Email";
+  const webhookUrl = "http://localhost:5678/webhook/Email";
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
