@@ -9,14 +9,15 @@ import { Mail, Send, Workflow, CheckCircle, AlertCircle } from "lucide-react";
 
 const EmailWorkflowForm = () => {
   const webhookUrl = "http://localhost:5678/webhook/Email";
-  const [content, setContent] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!content.trim()) {
-      toast.error("Please fill in the content field", {
+    if (!subject.trim() || !message.trim()) {
+      toast.error("Please fill in both subject and message fields", {
         icon: <AlertCircle className="h-4 w-4" />,
       });
       return;
@@ -32,8 +33,8 @@ const EmailWorkflowForm = () => {
         },
         mode: "no-cors",
         body: JSON.stringify({
-          subject: content.trim(),
-          message: content.trim(),
+          subject: subject.trim(),
+          message: message.trim(),
         }),
       });
 
@@ -43,7 +44,8 @@ const EmailWorkflowForm = () => {
         description: "Request sent to n8n. Check your workflow history to confirm.",
         icon: <CheckCircle className="h-4 w-4" />,
       });
-      setContent("");
+      setSubject("");
+      setMessage("");
     } catch (error) {
       console.error("Error triggering workflow:", error);
       toast.error("Failed to trigger workflow", {
@@ -74,15 +76,30 @@ const EmailWorkflowForm = () => {
           <CardContent className="p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-3">
-                <Label htmlFor="content" className="text-lg font-semibold text-gray-700">
-                  Content
+                <Label htmlFor="subject" className="text-lg font-semibold text-gray-700">
+                  Subject
+                </Label>
+                <Input
+                  id="subject"
+                  type="text"
+                  placeholder="Enter your email subject..."
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  className="h-14 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-all duration-200 bg-gray-50 focus:bg-white"
+                  disabled={isLoading}
+                />
+              </div>
+
+              <div className="space-y-3">
+                <Label htmlFor="message" className="text-lg font-semibold text-gray-700">
+                  Message
                 </Label>
                 <Textarea
-                  id="content"
-                  placeholder="Write your email content here..."
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  className="min-h-[200px] text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-all duration-200 bg-gray-50 focus:bg-white resize-none"
+                  id="message"
+                  placeholder="Write your email message here..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className="min-h-[180px] text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-all duration-200 bg-gray-50 focus:bg-white resize-none"
                   disabled={isLoading}
                 />
               </div>
