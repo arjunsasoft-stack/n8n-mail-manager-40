@@ -10,14 +10,14 @@ import { Mail, Send, Workflow, CheckCircle, AlertCircle } from "lucide-react";
 const EmailWorkflowForm = () => {
   const webhookUrl = "http://localhost:5678/webhook/Email";
   const [subject, setSubject] = useState("");
-  const [content, setContent] = useState("");
+  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!subject.trim() || !content.trim()) {
-      toast.error("Please fill in both subject and content fields", {
+    if (!subject.trim() || !message.trim()) {
+      toast.error("Please fill in both subject and message fields", {
         icon: <AlertCircle className="h-4 w-4" />,
       });
       return;
@@ -34,7 +34,7 @@ const EmailWorkflowForm = () => {
         mode: "no-cors",
         body: JSON.stringify({
           subject: subject.trim(),
-          message: content.trim(),
+          message: message.trim(),
         }),
       });
 
@@ -45,7 +45,7 @@ const EmailWorkflowForm = () => {
         icon: <CheckCircle className="h-4 w-4" />,
       });
       setSubject("");
-      setContent("");
+      setMessage("");
     } catch (error) {
       console.error("Error triggering workflow:", error);
       toast.error("Failed to trigger workflow", {
@@ -91,14 +91,14 @@ const EmailWorkflowForm = () => {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="content" className="text-lg font-semibold text-gray-700">
+                <Label htmlFor="message" className="text-lg font-semibold text-gray-700">
                   Message
                 </Label>
                 <Textarea
-                  id="content"
+                  id="message"
                   placeholder="Write your email message here..."
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   className="min-h-[180px] text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-all duration-200 bg-gray-50 focus:bg-white resize-none"
                   disabled={isLoading}
                 />
