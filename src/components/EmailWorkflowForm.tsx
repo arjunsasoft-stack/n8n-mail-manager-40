@@ -92,7 +92,7 @@ const EmailWorkflowForm = () => {
 
               <div className="space-y-3">
                 <Label htmlFor="message" className="text-lg font-semibold text-gray-700">
-                  Message
+                  Text
                 </Label>
                 <Textarea
                   id="message"
